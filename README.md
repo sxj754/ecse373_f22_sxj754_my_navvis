@@ -30,11 +30,14 @@ There is one more argument in addition to the `original.launch` file, `use_previ
 
 ### 3. `new2.launch`
 
-This launch file is for displaying map and laser scanning result at rviz.v
+This launch file is for displaying map and laser scanning result at rviz
 
-    $ roslaunch my_navvis original.launch use_xacro:=true use_robot_state_publisher:=true use_previous_launch:=false
+    $ roslaunch my_navvis original.launch use_xacro:=true
 
-There is one more argument, `bag_path`. this argument is the location of the bag file.
+There is one more argument, `bag_path`. this argument is the location of the bag file. The map file should be played by rosbag in seperate terminal.
+
+    $ rosbag play --clock ~/Desktop/glennan_5_complete.bag /tf_trajectory:=/tf
+
 
 ---
 

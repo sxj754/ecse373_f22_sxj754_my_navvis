@@ -1,20 +1,18 @@
 <launch>
-  <arg name="use_xacro" default="false" />
-  <arg name="use_robot_state_publisher" default="true" />
   <arg name="use_previous_launch" default="false" />
+  <arg name="use_robot_state_publisher" default="true" />
+  <!-- <arg name="use_rosbag" default="false" /> -->
   <arg name="bag_path" default="~/Desktop" />
 
   <!-- The filename can be passed into the launch file to override the default. -->
-  <arg if="$(arg use_xacro)" name="filename" default="base.xacro" />
-  <arg unless="$(arg use_xacro)" name="filename" default="base.urdf" />
+  <arg name="filename" default="base.xacro" />
 
   <!-- The full path of the URDF/XACRO file can be passed into the launch file instead. -->
   <arg if="$(arg use_previous_launch)" name="file" default="$(find navvis_description)/urdf/$(arg filename)" />
   <arg unless="$(arg use_previous_launch)" name="file" default="$(find my_navvis)/urdf/$(arg filename)" />
 
   <!-- Use the file argument as the name of the file used to set the /robot_description parameter on the parameter server -->
-  <param if="$(arg use_xacro)" name="robot_description" command="/$(find xacro)/xacro --inorder $(arg file)" />
-  <param unless="$(arg use_xacro)" name="robot_description" textfile="$(arg file)" />
+  <param name="robot_description" command="/$(find xacro)/xacro --inorder $(arg file)" />
 
   <!-- Run the robot_state_publisher. -->
   <node if="$(arg use_robot_state_publisher)" pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" />
@@ -32,5 +30,5 @@
   <node pkg="map_server" type="map_server" name="map_server" args="$(find maps_glennan)/maps/glennan5_map.yaml" />
 
   <!-- Rosbag play -->
-  <node if="$(!arg use_previous_launch)" pkg="rosbag" type="play" name="player" output="screen" args="--clock $(arg bag_path)/glennan_5_complete.bag /tf_trajectory:=/tf" />
+  <!-- <node pkg="rosbag" type="play" name="player" output="screen" args="clock $(arg bag_path)/glennan_5_complete.bag /tf_trajectory:=/tf" /> -->
 </launch>
